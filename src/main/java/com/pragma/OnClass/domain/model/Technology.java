@@ -6,7 +6,7 @@ import static java.util.Objects.requireNonNull;
 
 public class Technology {
     private final Long id;
-    private final String name;
+    private  String name;
 
     private final String description;
 
@@ -29,6 +29,7 @@ public class Technology {
     }
 
 
-
-
+    public void setName(String name) {
+        this.name  = name;
+    }
 }
