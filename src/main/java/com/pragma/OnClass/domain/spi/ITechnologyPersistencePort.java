@@ -4,7 +4,7 @@ import com.pragma.OnClass.domain.model.Technology;
 
 import java.util.List;
 
-public interface ITechnologyPersitencePort {
+public interface ITechnologyPersistencePort {
     void saveTechnology(Technology technology);
     Technology getTechnology(String name);
 
