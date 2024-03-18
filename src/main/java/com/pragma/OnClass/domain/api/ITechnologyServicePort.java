@@ -8,5 +8,5 @@ public interface ITechnologyServicePort {
     void saveTechnology(Technology technology);
     Technology getTechnology(String name);
 
-    List<Technology> getAllTechnology(Integer page, Integer size, boolean isAsc);
+    List<Technology> getAllTechnologies(Integer page, Integer size, boolean isAsc);
 }
