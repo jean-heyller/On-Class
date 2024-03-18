@@ -31,7 +31,7 @@ public class TechnologyAdapter implements ITechnologyPersistencePort {
     }
 
     @Override
-    public List<Technology> getAllTechnology(Integer page, Integer size) {
+    public List<Technology> getAllTechnology(Integer page, Integer size, boolean isAsc) {
         return null;
     }
 
