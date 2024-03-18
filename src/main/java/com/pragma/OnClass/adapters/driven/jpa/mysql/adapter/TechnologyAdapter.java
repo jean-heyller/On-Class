@@ -15,10 +15,11 @@ public class TechnologyAdapter implements ITechnologyPersistencePort {
     private final ITechnologyEntityMapper technologyEntityMapper;
     @Override
     public void saveTechnology(Technology technology){
-        if(technologyRepository.findByName(technology.getName()).isPresent()){
+        String normalizedTechnologyName = technology.getName().toLowerCase();
+        if(technologyRepository.findByName(normalizedTechnologyName).isPresent()){
             throw new TechnologyAlreadyExitsException();
         }
-
+        technology.setName(normalizedTechnologyName);
         technologyRepository.save(technologyEntityMapper.toEntity(technology));
 
 
