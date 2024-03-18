@@ -16,6 +16,6 @@ public class AddTechnologyRequest {
     private  final String name;
 
     @NotBlank(message = DomainConstants.FIELD_DESCRIPTION_NULL_MESSAGE)
-    @Size(message = DomainConstants.FIELD_DESCRIPTION_SIZE_MESSAGE)
+    @Size(max = 90, message = DomainConstants.FIELD_DESCRIPTION_SIZE_MESSAGE)
     private final String description;
 }
