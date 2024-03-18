@@ -30,9 +30,9 @@ public class TechnologyRestControllerApdapter {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<TechnologyResponse>> getAllTechnologies(@RequestParam Integer page, @RequestParam Integer size){
+    public ResponseEntity<List<TechnologyResponse>> getAllTechnologies(@RequestParam Integer page, @RequestParam Integer size,@RequestParam(defaultValue = "true")  boolean isAsc) {
         return ResponseEntity.ok(technologyResponseMapper.
-                toTechnologyResponseList(technologyServicePort.getAllTechnology(page, size)));
+                toTechnologyResponseList(technologyServicePort.getAllTechnologies(page, size, isAsc)));
     }
     @GetMapping("search/{technologyName}")
     public ResponseEntity<TechnologyResponse> getTechnology(@PathVariable String technologyName){

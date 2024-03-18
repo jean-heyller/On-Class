@@ -1,5 +1,7 @@
 package com.pragma.OnClass.configuration.exceptionhandler;
 
+import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.IncompatibleValueException;
+import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.NoDataFoundException;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.TechnologyAlreadyExitsException;
 
 import com.pragma.OnClass.configuration.Constants;
@@ -46,6 +48,18 @@ public class ControllerAdvisor {
     @ExceptionHandler(TechnologyAlreadyExitsException.class)
     public ResponseEntity<ExceptionResponse> handleSupplierAlreadyExistsException() {
         return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.TECHNOLOGY_ALREADY_EXITS_EXCEPTION_MESSAGE,
+                HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(IncompatibleValueException.class)
+    public ResponseEntity<ExceptionResponse> handleIncompatibleValueException() {
+        return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.INCOMPATIBLE_VALUE_EXCEPTION_MESSAGE,
+                HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(NoDataFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleElementNotFoundException() {
+        return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.ELEMENT_NOT_FOUND_EXCEPTION_MESSAGE,
                 HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
     }
 
