@@ -1,11 +1,17 @@
 package com.pragma.OnClass.adapters.driven.jpa.mysql.adapter;
 
+import com.pragma.OnClass.adapters.driven.jpa.mysql.entity.TechnologyEntity;
+import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.IncompatibleValueException;
+import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.NoDataFoundException;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.TechnologyAlreadyExitsException;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.mapper.ITechnologyEntityMapper;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.repository.ITechnologyRepository;
 import com.pragma.OnClass.domain.model.Technology;
 import com.pragma.OnClass.domain.spi.ITechnologyPersistencePort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -31,8 +37,17 @@ public class TechnologyAdapter implements ITechnologyPersistencePort {
     }
 
     @Override
-    public List<Technology> getAllTechnology(Integer page, Integer size) {
-        return null;
+    public List<Technology> getAllTechnologies(Integer page, Integer size, boolean isAsc) {
+        if (page < 0 || size < 0) {
+            throw new IncompatibleValueException();
+        }
+       Sort sort = isAsc ? Sort.by("name").ascending() : Sort.by("name").descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        List<TechnologyEntity> allTechnologies = technologyRepository.findAll(pageable).getContent();
+        if (allTechnologies.isEmpty()) {
+            throw  new NoDataFoundException();
+        }
+        return technologyEntityMapper.toModelist(allTechnologies);
     }
 
 }
