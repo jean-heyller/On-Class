@@ -1,13 +1,12 @@
 package com.pragma.OnClass.adapters.driven.jpa.mysql.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
+import java.util.List;
 
 @Entity
 @Table(name = "technology")
@@ -24,4 +23,6 @@ public class TechnologyEntity {
     @Column(length = 90)
     private String description;
 
+    @ManyToMany(mappedBy = "technologies")
+    private List<CapacityEntity> capacities;
 }

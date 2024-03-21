@@ -1,9 +1,10 @@
 package com.pragma.OnClass.domain.api.usecase;
 
+import com.pragma.OnClass.domain.api.ICapacityServicePort;
 import com.pragma.OnClass.domain.model.Capacity;
 import com.pragma.OnClass.domain.spi.ICapacityPersistencePort;
 
-public class CapacityUseCase {
+public class CapacityUseCase implements ICapacityServicePort {
     private ICapacityPersistencePort capacityPersistencePort;
     public CapacityUseCase(ICapacityPersistencePort capacityPersistencePort){
         this.capacityPersistencePort = capacityPersistencePort;
