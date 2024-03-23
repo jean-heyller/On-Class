@@ -7,11 +7,15 @@ public class DomainConstants {
 
     public enum field{
         NAME,
-        DESCRIPTION
+        DESCRIPTION,
+        TECHNOLOGIES,
     }
     public static final String FIELD_NAME_NULL_MESSAGE = "Name cannot be null";
     public static final String FIELD_NAME_SIZE_MESSAGE = "Name cannot be greater than 50 characters";
     public static final String FIELD_DESCRIPTION_SIZE_MESSAGE = "Description cannot be greater than 90 characters";
     public static final String FIELD_DESCRIPTION_NULL_MESSAGE = "Description cannot be null";
+    public static final String FIELD_TECHNOLOGIES_NULL_MESSAGE = "Technologies cannot be null";
+    public static final String FIELD_TECHNOLOGIES_EMPTY_MESSAGE = "Technologies cannot be empty";
+    public static final String FIELD_TECHNOLOGIES_SIZE_MESSAGE = "Technologies cannot be greater than 20 characters and less than 3 characters";
 
 }

@@ -2,6 +2,8 @@ package com.pragma.OnClass.adapters.driven.jpa.mysql.adapter;
 
 import com.pragma.OnClass.adapters.driven.jpa.mysql.entity.CapacityEntity;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.entity.TechnologyEntity;
+import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.DuplicateTechnologyException;
+import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.TechnologyNotFoundException;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.mapper.ICapacityEntityMapper;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.repository.ICapacityRepository;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.repository.ITechnologyRepository;
@@ -38,13 +40,13 @@ public class CapacityAdapter implements ICapacityPersistencePort {
                     Long technologyId = existingTechnology.get().getId();
 
                     if (technologyEntities.stream().anyMatch(t -> t.getId().equals(technologyId))) {
-                        throw new IllegalArgumentException("Technology already exists in the capacity");
+                        throw new DuplicateTechnologyException();
                     }
 
                     technologyEntities.add(existingTechnology.get());
 
                 } else {
-                    throw new  IllegalArgumentException("no existe la tecnologia en la base de datos");
+                    throw new TechnologyNotFoundException();
                 }
             }
 
