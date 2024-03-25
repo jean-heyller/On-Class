@@ -1,7 +1,7 @@
 package com.pragma.OnClass.adapters.driving.http.controller;
 import com.pragma.OnClass.adapters.driving.http.dto.request.AddCapacityRequest;
 import com.pragma.OnClass.adapters.driving.http.mapper.ICapacityRequestMapper;
-import com.pragma.OnClass.adapters.driving.http.mapper.ICapacityResponseMapper;
+
 import com.pragma.OnClass.domain.api.ICapacityServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 public class CapacityRestControllerAdapter {
     private final ICapacityServicePort capacityServicePort;
     private final ICapacityRequestMapper capacityRequestMapper;
-    private final ICapacityResponseMapper capacityResponseMapper;
+
     @PostMapping("/")
     public ResponseEntity<Void> addCapacity(@Valid @RequestBody AddCapacityRequest request){
         capacityServicePort.saveCapacity(capacityRequestMapper.addRequestToCapacity(request));
