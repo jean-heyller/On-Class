@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Capacity {
     private final Long id;
-    private final String name;
+    private  String name;
     private final String description;
 
     private List<Technology> technologies;
@@ -34,6 +34,10 @@ public class Capacity {
     }
     public void setTechnologies(List<Technology> technologies) {
         this.technologies = technologies;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 

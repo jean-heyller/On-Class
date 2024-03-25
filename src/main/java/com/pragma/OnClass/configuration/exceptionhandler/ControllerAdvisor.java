@@ -1,5 +1,6 @@
 package com.pragma.OnClass.configuration.exceptionhandler;
 
+import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.DuplicateTechnologyException;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.IncompatibleValueException;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.NoDataFoundException;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.TechnologyAlreadyExitsException;
@@ -62,5 +63,12 @@ public class ControllerAdvisor {
         return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.ELEMENT_NOT_FOUND_EXCEPTION_MESSAGE,
                 HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
     }
+
+    @ExceptionHandler(DuplicateTechnologyException.class)
+    public ResponseEntity<ExceptionResponse> handleDuplicatedTechnologyException(){
+        return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.DUPLICATE_VALUE_EXCEPTION_MESSAGE,
+                HttpStatus.BAD_REQUEST.toString(),LocalDateTime.now()));
+    }
+
 
 }

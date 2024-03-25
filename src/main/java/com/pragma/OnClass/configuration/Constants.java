@@ -13,6 +13,10 @@ public class Constants {
 
     public static final String MAX_CHAR_EXCEPTION_MESSAGE = "The Field indicated exceed the maximum number of characters";
 
+    public static final String  DUPLICATE_VALUE_EXCEPTION_MESSAGE = "The value indicated is already in use";
+
+    public static final String TECHNOLOGY_NOT_FOUND_EXCEPTION = "the value the technology no exists";
+
 
 
 
