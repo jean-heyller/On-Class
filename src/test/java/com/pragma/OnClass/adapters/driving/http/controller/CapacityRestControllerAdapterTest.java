@@ -2,6 +2,7 @@ package com.pragma.OnClass.adapters.driving.http.controller;
 
 import com.pragma.OnClass.adapters.driving.http.dto.request.AddCapacityRequest;
 import com.pragma.OnClass.adapters.driving.http.mapper.ICapacityRequestMapper;
+import com.pragma.OnClass.adapters.driving.http.mapper.ICapacityResponseMapper;
 import com.pragma.OnClass.domain.api.ICapacityServicePort;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,9 @@ class CapacityRestControllerAdapterTest {
     @Mock
     private ICapacityRequestMapper capacityRequestMapper;
 
+    @Mock
+    private ICapacityResponseMapper capacityResponseMapper;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -38,7 +42,7 @@ class CapacityRestControllerAdapterTest {
     @Test
     void testAddCapacity() {
         // Arrange
-        CapacityRestControllerAdapter capacityRestControllerAdapter = new CapacityRestControllerAdapter(capacityServicePort, capacityRequestMapper);
+        CapacityRestControllerAdapter capacityRestControllerAdapter = new CapacityRestControllerAdapter(capacityServicePort, capacityRequestMapper,capacityResponseMapper);
         List<Long> technologies = Arrays.asList(1L, 2L, 3L);
         AddCapacityRequest addCapacityRequest = new AddCapacityRequest("Java", "Programming Language", technologies);
         when(capacityRequestMapper.addRequestToCapacity(addCapacityRequest)).thenReturn(any());
