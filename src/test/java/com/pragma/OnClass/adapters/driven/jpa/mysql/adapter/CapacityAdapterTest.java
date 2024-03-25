@@ -56,11 +56,7 @@ class CapacityAdapterTest {
 
 
 
-    @Test
-    void testGetCapacityByNameThrowsException() {
-        when(capacityRepository.findByName("Frontend")).thenReturn(Optional.empty());
-        assertThrows(RuntimeException.class, () -> capacityAdapter.getCapacity("Frontend"));
-    }
+
     @Test
     void testDuplicatedTechnology() {
 

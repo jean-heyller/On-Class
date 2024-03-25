@@ -11,7 +11,9 @@ import java.util.List;
 public class CapacityResponse {
     private final Long id;
     private final String name;
-    private final Long capacity;
+    private final String description;
+
+    private final List<Technology> technologies;
 
 
 

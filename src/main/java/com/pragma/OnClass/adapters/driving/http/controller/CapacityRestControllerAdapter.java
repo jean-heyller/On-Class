@@ -31,7 +31,7 @@ public class CapacityRestControllerAdapter {
     }
     @GetMapping("/")
     public ResponseEntity<List<CapacityResponse>> getAllCapacities(@RequestParam Integer page, @RequestParam Integer size, @RequestParam(defaultValue = "true")  boolean isAscName,
-                                                                   @RequestParam(defaultValue = "false")  boolean isAscTechnology) {
+                                                                   @RequestParam(defaultValue = "true")  boolean isAscTechnology) {
         return ResponseEntity.ok(capacityResponseMapper.toCapacityResponseList(capacityServicePort.getAllCapacities(page, size, isAscName, isAscTechnology)));
     }
 
