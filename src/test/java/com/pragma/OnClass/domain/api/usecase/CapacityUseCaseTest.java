@@ -68,4 +68,28 @@ class CapacityUseCaseTest {
             assertEquals(capacity.getTechnologies().get(i).getName(), result.getTechnologies().get(i).getName());
         }
     }
+
+    @Test
+    void TestGetAllCapacities() {
+        //GIVEN (DADO)
+        List<Technology> technologies = Arrays.asList(
+                new Technology(1L, "Java", "Programming Language"),
+                new Technology(2L, "Python", "Programming Language"),
+                new Technology(3L, "Django", "Programming Language")
+        );
+        List<Capacity> capacities = new ArrayList<>();
+        capacities.add(new Capacity(1L, "Java", "Programming Language", technologies));
+        capacities.add(new Capacity(2L, "Python", "Programming Language", technologies));
+        capacities.add(new Capacity(3L, "Django", "Programming Language", technologies));
+        given(capacityPersistencePort.getAllCapacities(0, 3, true, true)).willReturn(capacities);
+
+        //WHEN (CUANDO)
+        List<Capacity> result = capacityServicePort.getAllCapacities(0, 3, true, true);
+
+        //THEN (ENTONCES)
+        assertEquals(capacities.size(), result.size());
+        for (int i = 0; i < capacities.size(); i++) {
+            assertEquals(capacities.get(i).getName(), result.get(i).getName());
+        }
+    }
 }

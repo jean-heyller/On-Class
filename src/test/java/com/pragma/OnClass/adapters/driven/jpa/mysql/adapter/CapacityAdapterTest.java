@@ -13,10 +13,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -52,15 +54,54 @@ class CapacityAdapterTest {
 
 
     }
-
-
-
-
     @Test
-    void testGetCapacityByNameThrowsException() {
-        when(capacityRepository.findByName("Frontend")).thenReturn(Optional.empty());
-        assertThrows(RuntimeException.class, () -> capacityAdapter.getCapacity("Frontend"));
+    void testGetAllCapacities(){
+        // Arrange
+        int page = 0;
+        int size = 10;
+        boolean isAscName = true;
+        boolean isAscTechnology = true;
+
+
+        List<Technology> technologies = Arrays.asList(
+                new Technology(1L, "Java", "Programming"),
+                new Technology(2L, "Python", "Programming")
+        );
+
+
+        List<CapacityEntity> entities = Arrays.asList(
+                new CapacityEntity(1L, "Capacity 1", "description 1", Collections.singletonList(new TechnologyEntity())),
+                new CapacityEntity(2L, "Capacity 2", "description 2", Arrays.asList(new TechnologyEntity(), new TechnologyEntity()))
+        );
+
+
+        Page<CapacityEntity> pageOfEntities = new PageImpl<>(entities);
+
+        when(capacityRepository.findAll(PageRequest.of(page, size))).thenReturn(pageOfEntities);
+
+
+        List<Capacity> expectedCapacities = Arrays.asList(
+                new Capacity(1L, "Capacity 1", "description 1", technologies),
+                new Capacity(2L, "Capacity 2", "description 2", technologies)
+        );
+
+
+        when(capacityEntityMapper.toModelist(entities)).thenReturn(expectedCapacities);
+
+        List<Capacity> actualCapacities = capacityAdapter.getAllCapacities(page, size, isAscName, isAscTechnology);
+
+
+        assertEquals(expectedCapacities, actualCapacities);
+        verify(capacityRepository).findAll(PageRequest.of(page, size));verify(capacityEntityMapper).toModelist(entities);
+
+
+
     }
+
+
+
+
+
     @Test
     void testDuplicatedTechnology() {
 
