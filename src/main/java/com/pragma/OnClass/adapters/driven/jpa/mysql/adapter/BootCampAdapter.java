@@ -2,6 +2,9 @@ package com.pragma.OnClass.adapters.driven.jpa.mysql.adapter;
 
 import com.pragma.OnClass.adapters.driven.jpa.mysql.entity.BootCampEntity;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.entity.CapacityEntity;
+import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.DuplicateCapacityException;
+import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.DuplicateTechnologyException;
+import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.NoDataFoundException;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.mapper.IBootCampEntityMapper;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.repository.IBootCampRepository;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.repository.ICapacityRepository;
@@ -39,7 +42,7 @@ public class BootCampAdapter implements IBootCampPersistencePort {
                     }
                     capacityEntities.add(existingCapacity.get());
                 } else {
-                    throw new CapacityNotFoundException();
+                    throw new NoDataFoundException();
                 }
             }
             BootCampEntity bootCampEntity = bootCampEntityMapper.toEntity(bootCamp);
