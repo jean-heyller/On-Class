@@ -7,7 +7,7 @@ import com.pragma.OnClass.adapters.driving.http.mapper.ICapacityRequestMapper;
 import com.pragma.OnClass.adapters.driving.http.mapper.ICapacityResponseMapper;
 import com.pragma.OnClass.domain.api.ICapacityServicePort;
 
-import com.pragma.OnClass.domain.model.Technology;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
