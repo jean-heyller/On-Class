@@ -15,6 +15,8 @@ public class Constants {
 
     public static final String  DUPLICATE_VALUE_EXCEPTION_MESSAGE = "The value indicated is already in use";
 
+    public static final String DUPLICATE_VALUE_CAPACITIES_EXCEPTION = "The values indicated in capacities are duplicated";
+
     public static final String TECHNOLOGY_NOT_FOUND_EXCEPTION = "the value the technology no exists";
 
 

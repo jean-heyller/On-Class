@@ -1,5 +1,6 @@
 package com.pragma.OnClass.adapters.driven.jpa.mysql.adapter;
 
+import com.pragma.OnClass.adapters.driven.jpa.mysql.entity.BootCampEntity;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.entity.CapacityEntity;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.entity.TechnologyEntity;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.DuplicateTechnologyException;
@@ -45,7 +46,7 @@ class CapacityAdapterTest {
         List<Technology> technologies = List.of(new Technology(1L, "angular", "Programing Language"));
         Capacity capacity = new Capacity(1L, "Frontend","Programing Web", technologies);
         CapacityEntity capacityEntity = new CapacityEntity();
-        when(capacityRepository.findByName(capacity.getName())).thenReturn(Optional.empty());
+
         when(capacityEntityMapper.toEntity(capacity)).thenReturn(capacityEntity);
         when(technologyRepository.findById(1L)).thenReturn(Optional.of(new TechnologyEntity()));
 
@@ -70,8 +71,9 @@ class CapacityAdapterTest {
 
 
         List<CapacityEntity> entities = Arrays.asList(
-                new CapacityEntity(1L, "Capacity 1", "description 1", Collections.singletonList(new TechnologyEntity())),
-                new CapacityEntity(2L, "Capacity 2", "description 2", Arrays.asList(new TechnologyEntity(), new TechnologyEntity()))
+                new CapacityEntity(1L, "Capacity 1", "description 1",
+                        Collections.singletonList(new TechnologyEntity()),Collections.singletonList(new BootCampEntity())),
+                new CapacityEntity(2L, "Capacity 2", "description 2", Arrays.asList(new TechnologyEntity(), new TechnologyEntity()),Collections.singletonList(new BootCampEntity()))
         );
 
 
