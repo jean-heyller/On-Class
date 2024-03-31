@@ -3,7 +3,7 @@ package com.pragma.OnClass.adapters.driven.jpa.mysql.adapter;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.entity.BootCampEntity;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.entity.CapacityEntity;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.DuplicateCapacityException;
-import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.DuplicateTechnologyException;
+
 import com.pragma.OnClass.adapters.driven.jpa.mysql.exception.NoDataFoundException;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.mapper.IBootCampEntityMapper;
 import com.pragma.OnClass.adapters.driven.jpa.mysql.repository.IBootCampRepository;
@@ -12,8 +12,11 @@ import com.pragma.OnClass.domain.model.BootCamp;
 import com.pragma.OnClass.domain.model.Capacity;
 import com.pragma.OnClass.domain.spi.IBootCampPersistencePort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +52,40 @@ public class BootCampAdapter implements IBootCampPersistencePort {
             bootCampEntity.setCapacities(capacityEntities);
             bootCampRepository.save(bootCampEntity);
         }
+
+    }
+
+    @Override
+    public List<BootCamp> getAllBootCamps(Integer page, Integer size, boolean isAscName, boolean isAscCapacity) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<BootCampEntity> allBootCamps = bootCampRepository.findAll(pageable).getContent();
+
+        if (allBootCamps.isEmpty()) {
+            throw new NoDataFoundException();
+        }
+
+
+
+        List<BootCampEntity> bootCampEntities = new ArrayList<>(allBootCamps);
+
+        Comparator<BootCampEntity> comparator = Comparator.comparing(BootCampEntity::getName);
+
+        if (!isAscName) {
+            comparator = comparator.reversed();
+        }
+
+        comparator = comparator.thenComparing(e-> e.getCapacities().size());
+
+        if (!isAscCapacity) {
+            comparator = comparator.reversed();
+        }
+        bootCampEntities.sort(comparator);
+
+        return bootCampEntityMapper.toModelList(bootCampEntities);
+
+
+
+
 
     }
 

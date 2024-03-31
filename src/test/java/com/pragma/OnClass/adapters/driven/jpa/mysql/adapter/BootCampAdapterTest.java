@@ -12,6 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +59,31 @@ class BootCampAdapterTest {
         assertDoesNotThrow(() -> bootCampAdapter.saveBootCamp(bootCamp));
         verify(bootCampRepository, times(1)).save(bootCampEntity);
 
+
+    }
+
+    @Test
+    void testGetAllBootCamps() {
+        Integer page = 0;
+        Integer size = 10;
+        boolean isAscName = true;
+        boolean isAscTechnology = true;
+
+        List<Capacity> capacities = List.of(new Capacity(1L, "Frontend", "Web Development", List.of(new Technology(1L, "Java", "Programming Language"))));
+
+        List<BootCampEntity> entities = List.of(new BootCampEntity(1L, "BootCamp 1", "Web Development", List.of(new CapacityEntity())));
+
+        Page<BootCampEntity> bootCampEntities = new PageImpl<>(entities);
+
+        when(bootCampRepository.findAll(PageRequest.of(page, size))).thenReturn(bootCampEntities);
+        List<BootCamp> bootCamps = List.of(new BootCamp(1L, "BootCamp 1", "Web Development", capacities));
+        when(bootCampEntityMapper.toModelList(entities)).thenReturn(bootCamps);
+
+        List<BootCamp> result = bootCampAdapter.getAllBootCamps(page, size, isAscName, isAscTechnology);
+
+        assertEquals(bootCamps, result);
+
+        verify(bootCampRepository, times(1)).findAll(PageRequest.of(page, size));
 
     }
 }

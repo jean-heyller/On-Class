@@ -1,5 +1,6 @@
 package com.pragma.OnClass.adapters.driving.http.dto.response;
 
+import com.pragma.OnClass.adapters.driving.http.dto.TypeDtoCapacity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,6 +12,6 @@ public class BootCampResponse {
     private final Long id;
     private final String name;
     private final String description;
-    private final List<CapacityResponse> capacities;
+    private final List<TypeDtoCapacity> capacities;
 
 }
