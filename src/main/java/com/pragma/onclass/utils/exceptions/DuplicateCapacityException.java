@@ -1,4 +1,4 @@
-package com.pragma.onclass.adapters.driven.jpa.mysql.exception;
+package com.pragma.onclass.utils.exceptions;
 
 public class DuplicateCapacityException extends RuntimeException{
     public DuplicateCapacityException( ){

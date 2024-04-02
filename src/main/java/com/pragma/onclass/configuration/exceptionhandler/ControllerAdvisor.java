@@ -1,8 +1,7 @@
 package com.pragma.onclass.configuration.exceptionhandler;
 
-import com.pragma.onclass.adapters.driven.jpa.mysql.exception.*;
-
-import com.pragma.onclass.configuration.Constants;
+import com.pragma.onclass.utils.exceptions.*;
+import com.pragma.onclass.utils.exceptionsConstants.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +68,19 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(DuplicateCapacityException.class)
     public ResponseEntity<ExceptionResponse> handleDuplicatedCapacityException(){
-        return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.DUPLICATE_VALUE_CAPACITIES_EXCEPTION,
+        return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.DUPLICATE_VALUE_EXCEPTION_MESSAGE,
+                HttpStatus.BAD_REQUEST.toString(),LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(CapacityAlreadyExitsException.class)
+    public ResponseEntity<ExceptionResponse> handleCapacityAlreadyExistsException(){
+        return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.CAPACITY_ALREADY_EXISTS_EXCEPTION,
+                HttpStatus.BAD_REQUEST.toString(),LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(BootCampAlreadyExitsException.class)
+    public ResponseEntity<ExceptionResponse> handleBootcampAlreadyExistsException(){
+        return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.BOOTCAMP_ALREADY_EXISTS_EXCEPTION,
                 HttpStatus.BAD_REQUEST.toString(),LocalDateTime.now()));
     }
 

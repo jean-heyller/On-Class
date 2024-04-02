@@ -1,4 +1,4 @@
-package com.pragma.onclass.adapters.driven.jpa.mysql.exception;
+package com.pragma.onclass.utils.exceptions;
 
 public class ElementNotFoundExeption extends RuntimeException {
     public ElementNotFoundExeption(){

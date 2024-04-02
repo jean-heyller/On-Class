@@ -8,6 +8,8 @@ import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ICapacityReposito
 import com.pragma.onclass.domain.model.BootCamp;
 import com.pragma.onclass.domain.model.Capacity;
 import com.pragma.onclass.domain.model.Technology;
+import com.pragma.onclass.utils.exceptions.BootCampAlreadyExitsException;
+import com.pragma.onclass.utils.exceptions.NoDataFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -84,6 +87,39 @@ class BootCampAdapterTest {
         assertEquals(bootCamps, result);
 
         verify(bootCampRepository, times(1)).findAll(PageRequest.of(page, size));
+
+    }
+
+    @Test
+    void testBootCampAlreadyExists() {
+
+        BootCamp bootcamp = new BootCamp(1L, "bootcamp", "Description", List.of());
+        BootCampEntity bootcampEntity = new BootCampEntity(1L, "bootcamp", "Description", List.of());
+
+        when(bootCampRepository.findByName(bootcamp.getName())).thenReturn(Optional.of(bootcampEntity));
+
+
+        assertThrows(BootCampAlreadyExitsException.class, () -> bootCampAdapter.saveBootCamp(bootcamp));
+
+
+        verify(bootCampRepository).findByName(bootcamp.getName());
+
+    }
+
+    @Test
+    void testCapacityNotFound() {
+        List<Technology> technologies = new ArrayList<>();
+        technologies.add(new Technology(1L, "Java", "Programming Language"));
+        technologies.add(new Technology(2L, "Python", "Programming Language"));
+        technologies.add(new Technology(3L, "C++", "Programming Language"));
+        List<Capacity> capacities = List.of(new Capacity(1L, "Frontend", "Web Development", technologies));
+        BootCamp bootCamp = new BootCamp(1L, "BootCamp 1", "Web Development", capacities);
+
+        BootCampEntity bootCampEntity = new BootCampEntity();
+        when(bootCampEntityMapper.toEntity(bootCamp)).thenReturn(bootCampEntity);
+        when(capacityRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(NoDataFoundException.class, () -> bootCampAdapter.saveBootCamp(bootCamp));
 
     }
 }
