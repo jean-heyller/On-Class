@@ -1,4 +1,4 @@
-package com.pragma.onclass.configuration;
+package com.pragma.onclass.utils.exceptionsConstants;
 
 public class Constants {
     private Constants(){
@@ -15,10 +15,9 @@ public class Constants {
 
     public static final String  DUPLICATE_VALUE_EXCEPTION_MESSAGE = "The value indicated is already in use";
 
-    public static final String DUPLICATE_VALUE_CAPACITIES_EXCEPTION = "The values indicated in capacities are duplicated";
+    public static final String CAPACITY_ALREADY_EXISTS_EXCEPTION = "The capacity you want to create already exists";
 
-    public static final String TECHNOLOGY_NOT_FOUND_EXCEPTION = "the value the technology no exists";
-
+    public static final String BOOTCAMP_ALREADY_EXISTS_EXCEPTION = "The bootcamp you want to create already exists";
 
 
 

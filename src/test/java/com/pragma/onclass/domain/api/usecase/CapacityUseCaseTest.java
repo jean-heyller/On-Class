@@ -3,6 +3,7 @@ package com.pragma.onclass.domain.api.usecase;
 import com.pragma.onclass.domain.model.Capacity;
 import com.pragma.onclass.domain.model.Technology;
 import com.pragma.onclass.domain.spi.ICapacityPersistencePort;
+import com.pragma.onclass.utils.exceptions.DuplicateTechnologyException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,8 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CapacityUseCaseTest {
@@ -26,6 +26,12 @@ class CapacityUseCaseTest {
 
     @InjectMocks
     private CapacityUseCase capacityServicePort;
+
+
+    @InjectMocks
+    private CapacityUseCase capacityUseCase;
+
+
     @Test
     @DisplayName("Test save capacity")
     void testSaveCapacity() {
@@ -38,10 +44,10 @@ class CapacityUseCaseTest {
         Capacity capacity = new Capacity(1L, "Java", "Programming Language", technologies);
 
 
-        //WHEN (CUANDO)
+
         capacityServicePort.saveCapacity(capacity);
 
-        //THEN (ENTONCES)
+
         verify(capacityPersistencePort, times(1)).saveCapacity(capacity);
 
 
@@ -49,7 +55,6 @@ class CapacityUseCaseTest {
 
     @Test
     void TestGetCapacityByName() {
-        //GIVEN (DADO)
         List<Technology> technologies = Arrays.asList(
                 new Technology(1L, "Java", "Programming Language"),
                 new Technology(2L, "Python", "Programming Language"),
@@ -58,10 +63,9 @@ class CapacityUseCaseTest {
         Capacity capacity = new Capacity(1L, "Java", "Programming Language", technologies);
         given(capacityPersistencePort.getCapacity("Java")).willReturn(capacity);
 
-        //WHEN (CUANDO)
+
         Capacity result = capacityServicePort.getCapacity("Java");
 
-        //THEN (ENTONCES)
         assertEquals(capacity.getName(), result.getName());
         assertEquals(capacity.getTechnologies().size(), result.getTechnologies().size());
         for (int i = 0; i < capacity.getTechnologies().size(); i++) {
@@ -83,13 +87,33 @@ class CapacityUseCaseTest {
         capacities.add(new Capacity(3L, "Django", "Programming Language", technologies));
         given(capacityPersistencePort.getAllCapacities(0, 3, true, true)).willReturn(capacities);
 
-        //WHEN (CUANDO)
+
         List<Capacity> result = capacityServicePort.getAllCapacities(0, 3, true, true);
 
-        //THEN (ENTONCES)
         assertEquals(capacities.size(), result.size());
         for (int i = 0; i < capacities.size(); i++) {
             assertEquals(capacities.get(i).getName(), result.get(i).getName());
         }
+    }
+
+    @Test
+     void testSaveCapacityWithDuplicateTechnology() {
+
+
+
+        Technology tech1 = new Technology(1L, "Tech1", "some description");
+        Technology tech2 = new Technology(1L, "Tech2", "some description");
+
+
+        List<Technology> technologies = Arrays.asList(tech1, tech2);
+
+        Capacity capacity = new Capacity(1L, "Java", "Programming Language", technologies);
+
+
+        assertThrows(DuplicateTechnologyException.class, () -> {
+            capacityUseCase.saveCapacity(capacity);
+        });
+
+        verify(capacityPersistencePort, never()).saveCapacity(capacity);
     }
 }

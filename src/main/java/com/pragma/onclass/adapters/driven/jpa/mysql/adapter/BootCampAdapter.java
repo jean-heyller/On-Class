@@ -2,9 +2,10 @@ package com.pragma.onclass.adapters.driven.jpa.mysql.adapter;
 
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.BootCampEntity;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.CapacityEntity;
-import com.pragma.onclass.adapters.driven.jpa.mysql.exception.DuplicateCapacityException;
+import com.pragma.onclass.utils.exceptions.BootCampAlreadyExitsException;
 
-import com.pragma.onclass.adapters.driven.jpa.mysql.exception.NoDataFoundException;
+
+import com.pragma.onclass.utils.exceptions.NoDataFoundException;
 import com.pragma.onclass.adapters.driven.jpa.mysql.mapper.IBootCampEntityMapper;
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.IBootCampRepository;
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ICapacityRepository;
@@ -32,6 +33,10 @@ public class BootCampAdapter implements IBootCampPersistencePort {
     @Override
     public void saveBootCamp(BootCamp bootCamp) {
         String normalizedBootCampName = bootCamp.getName().toLowerCase();
+
+        if (bootCampRepository.findByName(normalizedBootCampName).isPresent()) {
+            throw new BootCampAlreadyExitsException();
+        }
         bootCamp.setName(normalizedBootCampName);
 
         if (bootCamp.getCapacities() != null && !bootCamp.getCapacities().isEmpty()) {
@@ -39,10 +44,6 @@ public class BootCampAdapter implements IBootCampPersistencePort {
             for (Capacity capacity : bootCamp.getCapacities()) {
                 Optional<CapacityEntity> existingCapacity = capacityRepository.findById(capacity.getId());
                 if (existingCapacity.isPresent()) {
-                    Long capacityId = existingCapacity.get().getId();
-                    if (capacityEntities.stream().anyMatch(c -> c.getId().equals(capacityId))) {
-                        throw new DuplicateCapacityException();
-                    }
                     capacityEntities.add(existingCapacity.get());
                 } else {
                     throw new NoDataFoundException();

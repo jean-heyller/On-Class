@@ -47,14 +47,18 @@ class AddCapacityRequestTest {
             assertTrue(violation.getMessage().contains(DomainConstants.FIELD_TECHNOLOGIES_SIZE_MESSAGE));
         }
     }
+
+
     @Test
-    void testValidationMinSizeTechnologies() {
-        List<Long> technologies = List.of(1L, 2L);
+    void testValidationEmptyTechnologies() {
+        List<Long> technologies = List.of();
         AddCapacityRequest addCapacityRequest = new AddCapacityRequest("Django", "Programing Language", technologies);
         Set<ConstraintViolation<AddCapacityRequest>> violations = validator.validate(addCapacityRequest);
-        assertEquals(1, violations.size());
+        assertEquals(2, violations.size());
         for (ConstraintViolation<AddCapacityRequest> violation : violations) {
-            assertTrue(violation.getMessage().contains(DomainConstants.FIELD_TECHNOLOGIES_SIZE_MESSAGE));
+            assertTrue(violation.getMessage().contains(DomainConstants.FIELD_TECHNOLOGIES_EMPTY_MESSAGE) ||
+                    violation.getMessage().contains(DomainConstants.FIELD_TECHNOLOGIES_SIZE_MESSAGE));
         }
+
     }
 }

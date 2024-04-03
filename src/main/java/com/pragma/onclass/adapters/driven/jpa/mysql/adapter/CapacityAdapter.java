@@ -2,9 +2,10 @@ package com.pragma.onclass.adapters.driven.jpa.mysql.adapter;
 
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.CapacityEntity;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.TechnologyEntity;
-import com.pragma.onclass.adapters.driven.jpa.mysql.exception.DuplicateTechnologyException;
-import com.pragma.onclass.adapters.driven.jpa.mysql.exception.NoDataFoundException;
-import com.pragma.onclass.adapters.driven.jpa.mysql.exception.TechnologyNotFoundException;
+import com.pragma.onclass.utils.exceptions.CapacityAlreadyExitsException;
+import com.pragma.onclass.utils.exceptions.DuplicateTechnologyException;
+import com.pragma.onclass.utils.exceptions.NoDataFoundException;
+import com.pragma.onclass.utils.exceptions.TechnologyNotFoundException;
 import com.pragma.onclass.adapters.driven.jpa.mysql.mapper.ICapacityEntityMapper;
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ICapacityRepository;
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ITechnologyRepository;
@@ -32,6 +33,10 @@ public class CapacityAdapter implements ICapacityPersistencePort {
         String normalizedCapName = capacity.getName().toLowerCase();
         capacity.setName(normalizedCapName);
 
+        if (capacityRepository.findByName(normalizedCapName).isPresent()){
+            throw new CapacityAlreadyExitsException();
+        }
+
         if (capacity.getTechnologies() != null && !capacity.getTechnologies().isEmpty()) {
             List<TechnologyEntity> technologyEntities = new ArrayList<>();
 
@@ -39,12 +44,6 @@ public class CapacityAdapter implements ICapacityPersistencePort {
                 Optional<TechnologyEntity> existingTechnology = technologyRepository.findById(technology.getId());
 
                 if (existingTechnology.isPresent()) {
-                    Long technologyId = existingTechnology.get().getId();
-
-                    if (technologyEntities.stream().anyMatch(t -> t.getId().equals(technologyId))) {
-                        throw new DuplicateTechnologyException();
-                    }
-
                     technologyEntities.add(existingTechnology.get());
 
                 } else {

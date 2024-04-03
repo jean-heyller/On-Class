@@ -1,8 +1,8 @@
 package com.pragma.onclass.adapters.driven.jpa.mysql.adapter;
 
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.TechnologyEntity;
-import com.pragma.onclass.adapters.driven.jpa.mysql.exception.IncompatibleValueException;
-import com.pragma.onclass.adapters.driven.jpa.mysql.exception.NoDataFoundException;
+import com.pragma.onclass.utils.exceptions.IncompatibleValueException;
+import com.pragma.onclass.utils.exceptions.NoDataFoundException;
 import com.pragma.onclass.adapters.driven.jpa.mysql.mapper.ITechnologyEntityMapper;
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ITechnologyRepository;
 import com.pragma.onclass.domain.model.Technology;

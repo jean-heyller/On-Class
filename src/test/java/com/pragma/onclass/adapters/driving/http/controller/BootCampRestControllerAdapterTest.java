@@ -2,6 +2,7 @@ package com.pragma.onclass.adapters.driving.http.controller;
 
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ICapacityRepository;
 import com.pragma.onclass.adapters.driving.http.dto.TypeDtoCapacity;
+import com.pragma.onclass.adapters.driving.http.dto.TypeDtoTechnology;
 import com.pragma.onclass.adapters.driving.http.dto.request.AddBootCampRequest;
 import com.pragma.onclass.adapters.driving.http.dto.response.BootCampResponse;
 import com.pragma.onclass.adapters.driving.http.mapper.IBootCampRequestMapper;
@@ -60,9 +61,11 @@ class BootCampRestControllerAdapterTest {
         Integer page = 0;
         boolean isAscName = true;
         boolean isAscTechnology = true;
+
+        List<TypeDtoTechnology> typeDtoTechnologies = List.of(new TypeDtoTechnology(1L, "Java"));
         BootCampRestControllerAdapter bootCampRestControllerAdapter = new BootCampRestControllerAdapter(bootCampServicePort, bootCampRequestMapper,bootCampResponseMapper);
 
-        List<TypeDtoCapacity> typeDtoCapacities = List.of(new TypeDtoCapacity(1L, "Java"));
+        List<TypeDtoCapacity> typeDtoCapacities = List.of(new TypeDtoCapacity(1L, "Java",typeDtoTechnologies));
         List<BootCampResponse> bootCampResponses = List.of(new BootCampResponse(1L, "Java", "Programming Language", typeDtoCapacities));
         when(bootCampServicePort.getAllBootCamps(size,page,isAscName,isAscTechnology)).thenReturn(Collections.emptyList());
 
