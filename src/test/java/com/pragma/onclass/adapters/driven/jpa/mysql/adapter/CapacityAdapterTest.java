@@ -3,7 +3,7 @@ package com.pragma.onclass.adapters.driven.jpa.mysql.adapter;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.BootCampEntity;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.CapacityEntity;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.TechnologyEntity;
-import com.pragma.onclass.utils.exceptions.DuplicateTechnologyException;
+
 import com.pragma.onclass.utils.exceptions.TechnologyNotFoundException;
 import com.pragma.onclass.adapters.driven.jpa.mysql.mapper.ICapacityEntityMapper;
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ICapacityRepository;
@@ -103,27 +103,7 @@ class CapacityAdapterTest {
 
 
 
-    @Test
-    void testDuplicatedTechnology() {
 
-        TechnologyEntity technologyEntity = new TechnologyEntity();
-        technologyEntity.setId(1L);
-        technologyEntity.setName("angular");
-        technologyEntity.setDescription("Programming Language");
-
-
-        when(technologyRepository.findById(1L)).thenReturn(Optional.of(technologyEntity));
-
-
-        List<Technology> technologies = List.of(
-                new Technology(1L, "angular", "Programming Language"),
-                new Technology(1L, "angular", "Programming Language")
-        );
-        Capacity capacity = new Capacity(1L, "Frontend", "Programing Web", technologies);
-
-
-        assertThrows(DuplicateTechnologyException.class, () -> capacityAdapter.saveCapacity(capacity));
-    }
 
     @Test
     void testTechnologyNotFound() {

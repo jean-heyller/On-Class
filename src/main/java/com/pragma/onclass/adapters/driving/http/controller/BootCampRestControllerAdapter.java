@@ -38,4 +38,6 @@ public class BootCampRestControllerAdapter {
         return ResponseEntity.ok(bootCampResponseMapper.toBootCampResponseList(bootCampServicePort.getAllBootCamps(page, size, isAscName, isAscCapacity)));
     }
 
+
+
 }
