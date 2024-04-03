@@ -2,7 +2,7 @@ package com.pragma.onclass.domain.model;
 
 import java.util.List;
 
-public class BootCamp {
+public class Bootcamp {
     private final Long id;
     private  String name;
 
@@ -29,7 +29,7 @@ public class BootCamp {
     private final String description;
     List<Capacity> capacities;
 
-    public BootCamp(Long id, String name, String description, List<Capacity> capacities) {
+    public Bootcamp(Long id, String name, String description, List<Capacity> capacities) {
         this.id = id;
         this.name = name;
         this.description = description;

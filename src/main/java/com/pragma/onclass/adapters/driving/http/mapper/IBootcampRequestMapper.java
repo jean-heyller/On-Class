@@ -1,7 +1,7 @@
 package com.pragma.onclass.adapters.driving.http.mapper;
 
-import com.pragma.onclass.adapters.driving.http.dto.request.AddBootCampRequest;
-import com.pragma.onclass.domain.model.BootCamp;
+import com.pragma.onclass.adapters.driving.http.dto.request.AddBootcampRequest;
+import com.pragma.onclass.domain.model.Bootcamp;
 import com.pragma.onclass.domain.model.Capacity;
 import com.pragma.onclass.domain.model.Technology;
 import org.mapstruct.Mapper;
@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface IBootCampRequestMapper {
+public interface IBootcampRequestMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "capacities",expression = "java(mapCapacities(bootCampRequest.getCapacities()))")
-    BootCamp addRequestToBootCamp(AddBootCampRequest bootCampRequest);
+    Bootcamp addRequestToBootCamp(AddBootcampRequest bootCampRequest);
 
     default List<Capacity> mapCapacities(List<Long> capacities) {
         List<Capacity> mappedCapacities = new ArrayList<>();
