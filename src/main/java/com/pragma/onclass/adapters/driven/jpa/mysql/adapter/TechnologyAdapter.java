@@ -23,7 +23,8 @@ public class TechnologyAdapter implements ITechnologyPersistencePort {
     public void saveTechnology(Technology technology){
         String normalizedTechnologyName = technology.getName().toLowerCase();
         if(technologyRepository.findByName(normalizedTechnologyName).isPresent()){
-            throw new TechnologyAlreadyExitsException();
+            String message = "the Technology";
+            throw new TechnologyAlreadyExitsException(message);
         }
         technology.setName(normalizedTechnologyName);
         technologyRepository.save(technologyEntityMapper.toEntity(technology));

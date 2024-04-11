@@ -5,6 +5,8 @@ import com.pragma.onclass.domain.model.Version;
 import com.pragma.onclass.domain.spi.IVersionPersistencePort;
 import com.pragma.onclass.utils.exceptions.StartDateAfterEndDateException;
 
+import java.util.Date;
+
 public class VersionUseCase implements IVersionServicePort {
 
     private final IVersionPersistencePort versionPersistencePort;
@@ -15,11 +17,14 @@ public class VersionUseCase implements IVersionServicePort {
 
     @Override
     public void saveVersion(Version version) {
-        if (version.getStartDate().compareTo(version.getEndDate()) >= 0) {
+        Date currentDate = new Date();
+        if (version.getStartDate().before(currentDate) || version.getStartDate().after(version.getEndDate())) {
             throw new StartDateAfterEndDateException();
         }
         versionPersistencePort.saveVersion(version);
     }
+
+
 
 
 }

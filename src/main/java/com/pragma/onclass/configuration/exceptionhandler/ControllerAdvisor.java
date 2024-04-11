@@ -43,8 +43,8 @@ public class ControllerAdvisor {
     }
 
     @ExceptionHandler(TechnologyAlreadyExitsException.class)
-    public ResponseEntity<ExceptionResponse> handleSupplierAlreadyExistsException() {
-        return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.TECHNOLOGY_ALREADY_EXITS_EXCEPTION_MESSAGE,
+    public ResponseEntity<ExceptionResponse> handleSupplierAlreadyExistsException(TechnologyAlreadyExitsException ex) {
+        return ResponseEntity.badRequest().body(new ExceptionResponse(ex.getMessage() +Constants.TECHNOLOGY_ALREADY_EXITS_EXCEPTION_MESSAGE ,
                 HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
     }
 
@@ -81,6 +81,12 @@ public class ControllerAdvisor {
     @ExceptionHandler(BootCampAlreadyExitsException.class)
     public ResponseEntity<ExceptionResponse> handleBootcampAlreadyExistsException(){
         return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.BOOTCAMP_ALREADY_EXISTS_EXCEPTION,
+                HttpStatus.BAD_REQUEST.toString(),LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(ValueAlreadyExitsException.class)
+    public ResponseEntity<ExceptionResponse> handleValueAlreadyExistsException(ValueAlreadyExitsException ex){
+        return ResponseEntity.badRequest().body(new ExceptionResponse(ex.getMessage() + Constants.VALUE_ALREADY_EXISTS_EXCEPTION,
                 HttpStatus.BAD_REQUEST.toString(),LocalDateTime.now()));
     }
 

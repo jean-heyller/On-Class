@@ -5,4 +5,6 @@ import com.pragma.onclass.domain.model.Version;
 public interface IVersionPersistencePort {
 
     void saveVersion(Version version);
+
+
 }
