@@ -1,8 +1,8 @@
 package com.pragma.onclass.adapters.driven.jpa.mysql.mapper;
 
-import com.pragma.onclass.adapters.driven.jpa.mysql.entity.BootCampEntity;
+import com.pragma.onclass.adapters.driven.jpa.mysql.entity.BootcampEntity;
 
-import com.pragma.onclass.domain.model.BootCamp;
+import com.pragma.onclass.domain.model.Bootcamp;
 
 import org.mapstruct.Mapper;
 
@@ -11,8 +11,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface IBootCampEntityMapper {
-    BootCamp toModel(BootCampEntity bootCampEntity);
-    BootCampEntity toEntity(BootCamp bootCamp);
+    Bootcamp toModel(BootcampEntity bootCampEntity);
+    BootcampEntity toEntity(Bootcamp bootCamp);
 
-    List<BootCamp> toModelList(List<BootCampEntity> bootCampEntities);
+    List<Bootcamp> toModelList(List<BootcampEntity> bootCampEntities);
 }

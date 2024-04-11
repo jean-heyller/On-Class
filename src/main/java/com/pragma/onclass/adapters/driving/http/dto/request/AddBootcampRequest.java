@@ -14,7 +14,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class AddBootCampRequest {
+public class AddBootcampRequest {
 
             @NotBlank(message = DomainConstants.FIELD_NAME_NULL_MESSAGE)
             @Size(max = 50, message = DomainConstants.FIELD_NAME_SIZE_MESSAGE)

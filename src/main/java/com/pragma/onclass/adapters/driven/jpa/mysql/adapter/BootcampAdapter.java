@@ -1,17 +1,17 @@
 package com.pragma.onclass.adapters.driven.jpa.mysql.adapter;
 
-import com.pragma.onclass.adapters.driven.jpa.mysql.entity.BootCampEntity;
+import com.pragma.onclass.adapters.driven.jpa.mysql.entity.BootcampEntity;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.CapacityEntity;
+import com.pragma.onclass.domain.model.Bootcamp;
 import com.pragma.onclass.utils.exceptions.BootCampAlreadyExitsException;
 
 
 import com.pragma.onclass.utils.exceptions.NoDataFoundException;
 import com.pragma.onclass.adapters.driven.jpa.mysql.mapper.IBootCampEntityMapper;
-import com.pragma.onclass.adapters.driven.jpa.mysql.repository.IBootCampRepository;
+import com.pragma.onclass.adapters.driven.jpa.mysql.repository.IBootcampRepository;
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ICapacityRepository;
-import com.pragma.onclass.domain.model.BootCamp;
 import com.pragma.onclass.domain.model.Capacity;
-import com.pragma.onclass.domain.spi.IBootCampPersistencePort;
+import com.pragma.onclass.domain.spi.IBootcampPersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class BootCampAdapter implements IBootCampPersistencePort {
-    private final IBootCampRepository bootCampRepository;
+public class BootcampAdapter implements IBootcampPersistencePort {
+    private final IBootcampRepository bootCampRepository;
 
     private final IBootCampEntityMapper bootCampEntityMapper;
 
@@ -31,7 +31,7 @@ public class BootCampAdapter implements IBootCampPersistencePort {
 
 
     @Override
-    public void saveBootCamp(BootCamp bootCamp) {
+    public void saveBootCamp(Bootcamp bootCamp) {
         String normalizedBootCampName = bootCamp.getName().toLowerCase();
 
         if (bootCampRepository.findByName(normalizedBootCampName).isPresent()) {
@@ -49,7 +49,7 @@ public class BootCampAdapter implements IBootCampPersistencePort {
                     throw new NoDataFoundException();
                 }
             }
-            BootCampEntity bootCampEntity = bootCampEntityMapper.toEntity(bootCamp);
+            BootcampEntity bootCampEntity = bootCampEntityMapper.toEntity(bootCamp);
             bootCampEntity.setCapacities(capacityEntities);
             bootCampRepository.save(bootCampEntity);
         }
@@ -57,9 +57,9 @@ public class BootCampAdapter implements IBootCampPersistencePort {
     }
 
     @Override
-    public List<BootCamp> getAllBootCamps(Integer page, Integer size, boolean isAscName, boolean isAscCapacity) {
+    public List<Bootcamp> getAllBootCamps(Integer page, Integer size, boolean isAscName, boolean isAscCapacity) {
         Pageable pageable = PageRequest.of(page, size);
-        List<BootCampEntity> allBootCamps = bootCampRepository.findAll(pageable).getContent();
+        List<BootcampEntity> allBootCamps = bootCampRepository.findAll(pageable).getContent();
 
         if (allBootCamps.isEmpty()) {
             throw new NoDataFoundException();
@@ -67,9 +67,9 @@ public class BootCampAdapter implements IBootCampPersistencePort {
 
 
 
-        List<BootCampEntity> bootCampEntities = new ArrayList<>(allBootCamps);
+        List<BootcampEntity> bootCampEntities = new ArrayList<>(allBootCamps);
 
-        Comparator<BootCampEntity> comparator = Comparator.comparing(BootCampEntity::getName);
+        Comparator<BootcampEntity> comparator = Comparator.comparing(BootcampEntity::getName);
 
         if (!isAscName) {
             comparator = comparator.reversed();

@@ -1,9 +1,9 @@
 package com.pragma.onclass.domain.api.usecase;
 
-import com.pragma.onclass.domain.model.BootCamp;
+import com.pragma.onclass.domain.model.Bootcamp;
 import com.pragma.onclass.domain.model.Capacity;
 import com.pragma.onclass.domain.model.Technology;
-import com.pragma.onclass.domain.spi.IBootCampPersistencePort;
+import com.pragma.onclass.domain.spi.IBootcampPersistencePort;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,13 +20,13 @@ import static org.mockito.Mockito.verify;
 
 
 @ExtendWith(MockitoExtension.class)
-class BootCampUseCaseTest {
+class BootcampUseCaseTest {
 
     @Mock
-    private IBootCampPersistencePort bootCampPersistencePort;
+    private IBootcampPersistencePort bootCampPersistencePort;
 
     @InjectMocks
-    private BootCampUseCase bootCampServicePort;
+    private BootcampUseCase bootCampServicePort;
 
     @Test
     void testSaveBootCamp() {
@@ -42,7 +42,7 @@ class BootCampUseCaseTest {
         capacity.add(capacity1);
         Capacity capacity2 = new Capacity(2L, "Python", "Programming Language", technologies);
         capacity.add(capacity2);
-        BootCamp bootCamp = new BootCamp(1L, "Java", "Programming Language", capacity);
+        Bootcamp bootCamp = new Bootcamp(1L, "Java", "Programming Language", capacity);
 
         //WHEN (CUANDO)
         bootCampServicePort.saveBootCamp(bootCamp);

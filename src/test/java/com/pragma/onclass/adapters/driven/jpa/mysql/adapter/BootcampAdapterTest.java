@@ -1,11 +1,11 @@
 package com.pragma.onclass.adapters.driven.jpa.mysql.adapter;
 
-import com.pragma.onclass.adapters.driven.jpa.mysql.entity.BootCampEntity;
+import com.pragma.onclass.adapters.driven.jpa.mysql.entity.BootcampEntity;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.CapacityEntity;
 import com.pragma.onclass.adapters.driven.jpa.mysql.mapper.IBootCampEntityMapper;
-import com.pragma.onclass.adapters.driven.jpa.mysql.repository.IBootCampRepository;
+import com.pragma.onclass.adapters.driven.jpa.mysql.repository.IBootcampRepository;
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ICapacityRepository;
-import com.pragma.onclass.domain.model.BootCamp;
+import com.pragma.onclass.domain.model.Bootcamp;
 import com.pragma.onclass.domain.model.Capacity;
 import com.pragma.onclass.domain.model.Technology;
 import com.pragma.onclass.utils.exceptions.BootCampAlreadyExitsException;
@@ -26,15 +26,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
 
-class BootCampAdapterTest {
+class BootcampAdapterTest {
     @Mock
-    private BootCampAdapter bootCampAdapter;
+    private BootcampAdapter bootCampAdapter;
 
     @Mock
     ICapacityRepository capacityRepository;
 
     @Mock
-    private IBootCampRepository bootCampRepository;
+    private IBootcampRepository bootCampRepository;
 
     @Mock
     private IBootCampEntityMapper bootCampEntityMapper;
@@ -42,7 +42,7 @@ class BootCampAdapterTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        bootCampAdapter = new BootCampAdapter(bootCampRepository, bootCampEntityMapper,capacityRepository);
+        bootCampAdapter = new BootcampAdapter(bootCampRepository, bootCampEntityMapper,capacityRepository);
     }
 
 
@@ -53,9 +53,9 @@ class BootCampAdapterTest {
         technologies.add(new Technology(2L, "Python", "Programming Language"));
         technologies.add(new Technology(3L, "C++", "Programming Language"));
         List<Capacity> capacities = List.of(new Capacity(1L, "Frontend", "Web Development", technologies));
-        BootCamp bootCamp = new BootCamp(1L, "BootCamp 1", "Web Development", capacities);
+        Bootcamp bootCamp = new Bootcamp(1L, "BootCamp 1", "Web Development", capacities);
 
-        BootCampEntity bootCampEntity = new BootCampEntity();
+        BootcampEntity bootCampEntity = new BootcampEntity();
         when(bootCampEntityMapper.toEntity(bootCamp)).thenReturn(bootCampEntity);
         when(capacityRepository.findById(1L)).thenReturn(java.util.Optional.of(new CapacityEntity()));
 
@@ -74,17 +74,17 @@ class BootCampAdapterTest {
 
         List<Capacity> capacities = List.of(new Capacity(1L, "Frontend", "Web Development", List.of(new Technology(1L, "Java", "Programming Language"))));
 
-        List<BootCampEntity> entities = List.of(new BootCampEntity(1L, "BootCamp 1", "Web Development", List.of(new CapacityEntity())));
+        List<BootcampEntity> entities = List.of(new BootcampEntity(1L, "BootCamp 1", "Web Development", List.of(new CapacityEntity())));
 
-        Page<BootCampEntity> bootCampEntities = new PageImpl<>(entities);
+        Page<BootcampEntity> bootCampEntities = new PageImpl<>(entities);
 
         when(bootCampRepository.findAll(PageRequest.of(page, size))).thenReturn(bootCampEntities);
-        List<BootCamp> bootCamps = List.of(new BootCamp(1L, "BootCamp 1", "Web Development", capacities));
-        when(bootCampEntityMapper.toModelList(entities)).thenReturn(bootCamps);
+        List<Bootcamp> bootcamps = List.of(new Bootcamp(1L, "BootCamp 1", "Web Development", capacities));
+        when(bootCampEntityMapper.toModelList(entities)).thenReturn(bootcamps);
 
-        List<BootCamp> result = bootCampAdapter.getAllBootCamps(page, size, isAscName, isAscTechnology);
+        List<Bootcamp> result = bootCampAdapter.getAllBootCamps(page, size, isAscName, isAscTechnology);
 
-        assertEquals(bootCamps, result);
+        assertEquals(bootcamps, result);
 
         verify(bootCampRepository, times(1)).findAll(PageRequest.of(page, size));
 
@@ -93,8 +93,8 @@ class BootCampAdapterTest {
     @Test
     void testBootCampAlreadyExists() {
 
-        BootCamp bootcamp = new BootCamp(1L, "bootcamp", "Description", List.of());
-        BootCampEntity bootcampEntity = new BootCampEntity(1L, "bootcamp", "Description", List.of());
+        Bootcamp bootcamp = new Bootcamp(1L, "bootcamp", "Description", List.of());
+        BootcampEntity bootcampEntity = new BootcampEntity(1L, "bootcamp", "Description", List.of());
 
         when(bootCampRepository.findByName(bootcamp.getName())).thenReturn(Optional.of(bootcampEntity));
 
@@ -113,9 +113,9 @@ class BootCampAdapterTest {
         technologies.add(new Technology(2L, "Python", "Programming Language"));
         technologies.add(new Technology(3L, "C++", "Programming Language"));
         List<Capacity> capacities = List.of(new Capacity(1L, "Frontend", "Web Development", technologies));
-        BootCamp bootCamp = new BootCamp(1L, "BootCamp 1", "Web Development", capacities);
+        Bootcamp bootCamp = new Bootcamp(1L, "BootCamp 1", "Web Development", capacities);
 
-        BootCampEntity bootCampEntity = new BootCampEntity();
+        BootcampEntity bootCampEntity = new BootcampEntity();
         when(bootCampEntityMapper.toEntity(bootCamp)).thenReturn(bootCampEntity);
         when(capacityRepository.findById(1L)).thenReturn(Optional.empty());
 

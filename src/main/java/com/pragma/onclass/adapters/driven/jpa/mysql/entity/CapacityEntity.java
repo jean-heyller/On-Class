@@ -36,5 +36,5 @@ public class CapacityEntity {
     private List<TechnologyEntity> technologies;
 
     @ManyToMany(mappedBy = "capacities")
-    private List<BootCampEntity> bootCamps;
+    private List<BootcampEntity> bootCamps;
 }

@@ -1,6 +1,6 @@
 package com.pragma.onclass.adapters.driven.jpa.mysql.adapter;
 
-import com.pragma.onclass.adapters.driven.jpa.mysql.entity.BootCampEntity;
+import com.pragma.onclass.adapters.driven.jpa.mysql.entity.BootcampEntity;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.CapacityEntity;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.TechnologyEntity;
 
@@ -71,8 +71,8 @@ class CapacityAdapterTest {
 
         List<CapacityEntity> entities = Arrays.asList(
                 new CapacityEntity(1L, "Capacity 1", "description 1",
-                        Collections.singletonList(new TechnologyEntity()),Collections.singletonList(new BootCampEntity())),
-                new CapacityEntity(2L, "Capacity 2", "description 2", Arrays.asList(new TechnologyEntity(), new TechnologyEntity()),Collections.singletonList(new BootCampEntity()))
+                        Collections.singletonList(new TechnologyEntity()),Collections.singletonList(new BootcampEntity())),
+                new CapacityEntity(2L, "Capacity 2", "description 2", Arrays.asList(new TechnologyEntity(), new TechnologyEntity()),Collections.singletonList(new BootcampEntity()))
         );
 
 

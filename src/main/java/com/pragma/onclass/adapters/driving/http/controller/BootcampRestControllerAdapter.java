@@ -1,10 +1,10 @@
 package com.pragma.onclass.adapters.driving.http.controller;
-import com.pragma.onclass.adapters.driving.http.dto.request.AddBootCampRequest;
+import com.pragma.onclass.adapters.driving.http.dto.request.AddBootcampRequest;
 import com.pragma.onclass.adapters.driving.http.dto.response.BootCampResponse;
-import com.pragma.onclass.adapters.driving.http.mapper.IBootCampRequestMapper;
+import com.pragma.onclass.adapters.driving.http.mapper.IBootcampRequestMapper;
 
-import com.pragma.onclass.adapters.driving.http.mapper.IBootCampResponseMapper;
-import com.pragma.onclass.domain.api.IBootCampServicePort;
+import com.pragma.onclass.adapters.driving.http.mapper.IBootcampResponseMapper;
+import com.pragma.onclass.domain.api.IBootcampServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +19,15 @@ import java.util.List;
 @RequestMapping("/bootcamp")
 @RequiredArgsConstructor
 @Validated
-public class BootCampRestControllerAdapter {
-    private final IBootCampServicePort bootCampServicePort;
-    private final IBootCampRequestMapper bootCampRequestMapper;
+public class BootcampRestControllerAdapter {
+    private final IBootcampServicePort bootCampServicePort;
+    private final IBootcampRequestMapper bootCampRequestMapper;
 
-    private final IBootCampResponseMapper bootCampResponseMapper;
+    private final IBootcampResponseMapper bootCampResponseMapper;
 
 
     @PostMapping("/")
-    public ResponseEntity<Void> addBootCamp(@Valid @RequestBody AddBootCampRequest request){
+    public ResponseEntity<Void> addBootCamp(@Valid @RequestBody AddBootcampRequest request){
         bootCampServicePort.saveBootCamp(bootCampRequestMapper.addRequestToBootCamp(request));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
