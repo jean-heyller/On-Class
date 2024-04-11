@@ -12,8 +12,11 @@ public class Version {
 
     private final Integer maximumQuota;
 
+    public void setBootcamp(Bootcamp bootcamp) {
+        this.bootcamp = bootcamp;
+    }
 
-    private final Bootcamp bootcamp;
+    private  Bootcamp bootcamp;
 
     public Bootcamp getBootcamp() {
         return bootcamp;

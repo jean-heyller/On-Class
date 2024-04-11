@@ -15,7 +15,7 @@ public class VersionUseCase implements IVersionServicePort {
 
     @Override
     public void saveVersion(Version version) {
-        if (version.getStartDate().compareTo(version.getEndDate()) <= 0) {
+        if (version.getStartDate().compareTo(version.getEndDate()) >= 0) {
             throw new StartDateAfterEndDateException();
         }
         versionPersistencePort.saveVersion(version);
