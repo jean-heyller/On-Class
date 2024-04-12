@@ -42,11 +42,7 @@ public class ControllerAdvisor {
                 errorMessage, HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
     }
 
-    @ExceptionHandler(TechnologyAlreadyExitsException.class)
-    public ResponseEntity<ExceptionResponse> handleSupplierAlreadyExistsException(TechnologyAlreadyExitsException ex) {
-        return ResponseEntity.badRequest().body(new ExceptionResponse(ex.getMessage() +Constants.TECHNOLOGY_ALREADY_EXITS_EXCEPTION_MESSAGE ,
-                HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
-    }
+
 
     @ExceptionHandler(IncompatibleValueException.class)
     public ResponseEntity<ExceptionResponse> handleIncompatibleValueException() {
@@ -72,21 +68,16 @@ public class ControllerAdvisor {
                 HttpStatus.BAD_REQUEST.toString(),LocalDateTime.now()));
     }
 
-    @ExceptionHandler(CapacityAlreadyExitsException.class)
-    public ResponseEntity<ExceptionResponse> handleCapacityAlreadyExistsException(){
-        return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.CAPACITY_ALREADY_EXISTS_EXCEPTION,
-                HttpStatus.BAD_REQUEST.toString(),LocalDateTime.now()));
-    }
-
-    @ExceptionHandler(BootCampAlreadyExitsException.class)
-    public ResponseEntity<ExceptionResponse> handleBootcampAlreadyExistsException(){
-        return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.BOOTCAMP_ALREADY_EXISTS_EXCEPTION,
-                HttpStatus.BAD_REQUEST.toString(),LocalDateTime.now()));
-    }
 
     @ExceptionHandler(ValueAlreadyExitsException.class)
     public ResponseEntity<ExceptionResponse> handleValueAlreadyExistsException(ValueAlreadyExitsException ex){
         return ResponseEntity.badRequest().body(new ExceptionResponse(ex.getMessage() + Constants.VALUE_ALREADY_EXISTS_EXCEPTION,
+                HttpStatus.BAD_REQUEST.toString(),LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(StartDateBeforeCurrentDateException.class)
+    public ResponseEntity<ExceptionResponse> handleStartDateBeforeCurrentDateException(){
+        return ResponseEntity.badRequest().body(new ExceptionResponse(Constants.START_DATE_BEFORE_CURRENT_DATE_EXCEPTION,
                 HttpStatus.BAD_REQUEST.toString(),LocalDateTime.now()));
     }
 

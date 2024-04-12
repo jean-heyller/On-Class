@@ -3,7 +3,7 @@ package com.pragma.onclass.adapters.driven.jpa.mysql.adapter;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.BootcampEntity;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.CapacityEntity;
 import com.pragma.onclass.domain.model.Bootcamp;
-import com.pragma.onclass.utils.exceptions.BootCampAlreadyExitsException;
+
 
 
 import com.pragma.onclass.utils.exceptions.NoDataFoundException;
@@ -12,6 +12,7 @@ import com.pragma.onclass.adapters.driven.jpa.mysql.repository.IBootcampReposito
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ICapacityRepository;
 import com.pragma.onclass.domain.model.Capacity;
 import com.pragma.onclass.domain.spi.IBootcampPersistencePort;
+import com.pragma.onclass.utils.exceptions.ValueAlreadyExitsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 public class BootcampAdapter implements IBootcampPersistencePort {
+    public static final String BOOTCAMP_EXISTS_ERROR_MESSAGE = "The bootcamp";
     private final IBootcampRepository bootCampRepository;
 
     private final IBootCampEntityMapper bootCampEntityMapper;
@@ -35,7 +37,7 @@ public class BootcampAdapter implements IBootcampPersistencePort {
         String normalizedBootCampName = bootCamp.getName().toLowerCase();
 
         if (bootCampRepository.findByName(normalizedBootCampName).isPresent()) {
-            throw new BootCampAlreadyExitsException();
+            throw new ValueAlreadyExitsException(BOOTCAMP_EXISTS_ERROR_MESSAGE);
         }
         bootCamp.setName(normalizedBootCampName);
 

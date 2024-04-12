@@ -2,10 +2,7 @@ package com.pragma.onclass.adapters.driven.jpa.mysql.adapter;
 
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.CapacityEntity;
 import com.pragma.onclass.adapters.driven.jpa.mysql.entity.TechnologyEntity;
-import com.pragma.onclass.utils.exceptions.CapacityAlreadyExitsException;
-import com.pragma.onclass.utils.exceptions.DuplicateTechnologyException;
-import com.pragma.onclass.utils.exceptions.NoDataFoundException;
-import com.pragma.onclass.utils.exceptions.TechnologyNotFoundException;
+import com.pragma.onclass.utils.exceptions.*;
 import com.pragma.onclass.adapters.driven.jpa.mysql.mapper.ICapacityEntityMapper;
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ICapacityRepository;
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ITechnologyRepository;
@@ -22,6 +19,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 public class CapacityAdapter implements ICapacityPersistencePort {
+    public static final String CAPACITY_EXISTS_ERROR_MESSAGE = "The capacity";
     private final ICapacityRepository capacityRepository;
     private final ICapacityEntityMapper capacityEntityMapper;
 
@@ -34,7 +32,7 @@ public class CapacityAdapter implements ICapacityPersistencePort {
         capacity.setName(normalizedCapName);
 
         if (capacityRepository.findByName(normalizedCapName).isPresent()){
-            throw new CapacityAlreadyExitsException();
+            throw new ValueAlreadyExitsException(CAPACITY_EXISTS_ERROR_MESSAGE);
         }
 
         if (capacity.getTechnologies() != null && !capacity.getTechnologies().isEmpty()) {

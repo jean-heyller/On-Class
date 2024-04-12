@@ -4,8 +4,10 @@ import com.pragma.onclass.domain.api.IVersionServicePort;
 import com.pragma.onclass.domain.model.Version;
 import com.pragma.onclass.domain.spi.IVersionPersistencePort;
 import com.pragma.onclass.utils.exceptions.StartDateAfterEndDateException;
+import com.pragma.onclass.utils.exceptions.StartDateBeforeCurrentDateException;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public class VersionUseCase implements IVersionServicePort {
 
@@ -15,16 +17,22 @@ public class VersionUseCase implements IVersionServicePort {
         this.versionPersistencePort = versionPersistencePort;
     }
 
+
     @Override
     public void saveVersion(Version version) {
-        Date currentDate = new Date();
-        if (version.getStartDate().before(currentDate) || version.getStartDate().after(version.getEndDate())) {
+        LocalDate currentDate = LocalDate.now();
+        if ( version.getStartDate().isAfter(version.getEndDate())) {
             throw new StartDateAfterEndDateException();
+        }
+
+        if (version.getStartDate().isBefore(currentDate)) {
+            throw new StartDateBeforeCurrentDateException();
         }
         versionPersistencePort.saveVersion(version);
     }
-
-
-
-
 }
+
+
+
+
+

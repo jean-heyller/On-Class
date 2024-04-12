@@ -12,8 +12,11 @@ import com.pragma.onclass.utils.exceptions.NoDataFoundException;
 import com.pragma.onclass.utils.exceptions.ValueAlreadyExitsException;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class VersionAdapter implements IVersionPersistencePort {
+    public static final String VERSION_EXISTS_ERROR_MESSAGE = "The version";
 
     private final IVersionRepository versionRepository;
     private final IVersionEntityMapper versionEntityMapper;
@@ -23,21 +26,21 @@ public class VersionAdapter implements IVersionPersistencePort {
     private final IBootcampRepository bootCampRepository;
     @Override
     public void saveVersion(Version version) {
-        if(bootCampRepository.findById(version.getBootcamp().getId()).isEmpty()){
+        Optional<BootcampEntity> bootcampEntityOptional = bootCampRepository.findById(version.getBootcamp().getId());
+
+        if(bootcampEntityOptional.isEmpty()){
             throw new NoDataFoundException();
         }
 
-        BootcampEntity bootcampEntity = bootCampRepository.findById(version.getBootcamp().getId()).get();
+        BootcampEntity bootcampEntity = bootcampEntityOptional.get();
 
         VersionEntity existingVersion = versionRepository.findByStartDateAndEndDateAndMaximumQuotaAndBootcamp(
                 version.getStartDate(), version.getEndDate(), version.getMaximumQuota(), bootcampEntity);
 
         if (existingVersion != null) {
-            String message = "The version";
-            throw new ValueAlreadyExitsException(message);
+            throw new ValueAlreadyExitsException(VERSION_EXISTS_ERROR_MESSAGE);
         }
         version.setBootcamp(bootCampEntityMapper.toModel(bootcampEntity));
         versionRepository.save(versionEntityMapper.toEntity(version));
-
     }
 }
