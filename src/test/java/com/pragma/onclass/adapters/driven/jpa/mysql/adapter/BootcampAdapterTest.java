@@ -8,8 +8,9 @@ import com.pragma.onclass.adapters.driven.jpa.mysql.repository.ICapacityReposito
 import com.pragma.onclass.domain.model.Bootcamp;
 import com.pragma.onclass.domain.model.Capacity;
 import com.pragma.onclass.domain.model.Technology;
-import com.pragma.onclass.utils.exceptions.BootCampAlreadyExitsException;
+
 import com.pragma.onclass.utils.exceptions.NoDataFoundException;
+import com.pragma.onclass.utils.exceptions.ValueAlreadyExitsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -99,7 +100,7 @@ class BootcampAdapterTest {
         when(bootCampRepository.findByName(bootcamp.getName())).thenReturn(Optional.of(bootcampEntity));
 
 
-        assertThrows(BootCampAlreadyExitsException.class, () -> bootCampAdapter.saveBootCamp(bootcamp));
+        assertThrows(ValueAlreadyExitsException.class, () -> bootCampAdapter.saveBootCamp(bootcamp));
 
 
         verify(bootCampRepository).findByName(bootcamp.getName());
