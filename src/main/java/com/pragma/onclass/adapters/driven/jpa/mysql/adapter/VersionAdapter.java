@@ -40,6 +40,8 @@ public class VersionAdapter implements IVersionPersistencePort {
         if (existingVersion != null) {
             throw new ValueAlreadyExitsException(VERSION_EXISTS_ERROR_MESSAGE);
         }
+
+
         version.setBootcamp(bootCampEntityMapper.toModel(bootcampEntity));
         versionRepository.save(versionEntityMapper.toEntity(version));
     }
