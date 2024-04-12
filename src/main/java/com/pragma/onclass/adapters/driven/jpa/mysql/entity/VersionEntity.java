@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -21,10 +22,10 @@ public class VersionEntity {
     private Long id;
 
 
-    private  Date startDate;
+    private  LocalDate startDate;
 
 
-    private  Date endDate;
+    private LocalDate endDate;
 
 
     private  Integer maximumQuota;

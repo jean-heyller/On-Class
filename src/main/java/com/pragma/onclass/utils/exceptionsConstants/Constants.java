@@ -21,6 +21,8 @@ public class Constants {
 
     public static final String VALUE_ALREADY_EXISTS_EXCEPTION = " you want to create already exists";
 
+    public static final String START_DATE_BEFORE_CURRENT_DATE_EXCEPTION = "The start date is before the current date";
+
 
 
 }

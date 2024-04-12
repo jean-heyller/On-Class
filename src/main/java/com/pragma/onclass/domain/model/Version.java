@@ -1,14 +1,15 @@
 package com.pragma.onclass.domain.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Version {
 
     private final Long id;
 
-    private final Date startDate;
+    private final LocalDate startDate;
 
-    private final Date endDate;
+    private final LocalDate endDate;
 
     private final Integer maximumQuota;
 
@@ -22,7 +23,7 @@ public class Version {
         return bootcamp;
     }
 
-    public Version(Long id, Date startDate, Date endDate, Integer maximumQuota, Bootcamp bootcamp) {
+    public Version(Long id, LocalDate startDate, LocalDate endDate, Integer maximumQuota, Bootcamp bootcamp) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -34,11 +35,11 @@ public class Version {
         return id;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 

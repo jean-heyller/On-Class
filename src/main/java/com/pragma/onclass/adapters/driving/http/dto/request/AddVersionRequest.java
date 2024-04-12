@@ -8,6 +8,7 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -16,11 +17,11 @@ public class AddVersionRequest {
 
     @NotNull(message = "Start date cannot be null")
     @FutureOrPresent(message = "Start date must be in the present or future")
-    private final Date startDate;
+    private final LocalDate startDate;
 
     @NotNull(message = "End date cannot be null")
     @FutureOrPresent(message = "End date must be in the present or future")
-    private final Date endDate;
+    private final LocalDate endDate;
 
     @NotNull(message = "Maximum quota cannot be null")
     @Min(value = 1, message = "Maximum quota must be greater than 0")
