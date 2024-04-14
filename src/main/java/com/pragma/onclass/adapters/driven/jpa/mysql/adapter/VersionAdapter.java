@@ -59,40 +59,24 @@ public class VersionAdapter implements IVersionPersistencePort {
             throw new IncompatibleValueException();
         }
 
-        if (isAscName == null && isAscDate == null && isAscQuota == null && bootcampId == null) {
-            Pageable pageable = PageRequest.of(page, size);
-            List<VersionEntity> allVersions = versionRepository.findAll(pageable).getContent();
-            return versionEntityMapper.toModelList(allVersions);
+        Map<String, String> sortParameters = new HashMap<>();
+        sortParameters.put("bootcamp.name", isAscName);
+        sortParameters.put("startDate", isAscDate);
+        sortParameters.put("maximumQuota", isAscQuota);
+
+        List<Sort.Order> orders = new ArrayList<>();
+        for (Map.Entry<String, String> entry : sortParameters.entrySet()) {
+            if ("asc".equals(entry.getValue())) {
+                orders.add(new Sort.Order(Sort.Direction.ASC, entry.getKey()));
+            } else if ("desc".equals(entry.getValue())) {
+                orders.add(new Sort.Order(Sort.Direction.DESC, entry.getKey()));
+            }
         }
 
-        Sort sort = Sort.unsorted();
-        if (("asc".equals(isAscName) || "desc".equals(isAscName)) && bootcampId == null) {
-            sort = Sort.by("bootcamp.name");
-        }
-        if ("asc".equals(isAscDate) || "desc".equals(isAscDate)) {
-            sort = Sort.by("startDate");
-        } else if ("asc".equals(isAscQuota) || "desc".equals(isAscQuota)) {
-            sort = Sort.by("maximumQuota");
-        }
-
-        if ("desc".equals(isAscName) || "desc".equals(isAscDate) || "desc".equals(isAscQuota)) {
-            sort = sort.descending();
-        } else {
-            sort = sort.ascending();
-        }
-
-        Pageable pageable = PageRequest.of(page, size, sort);
-        List<VersionEntity> allVersions = versionRepository.findAll(pageable).getContent();
-
-        if (bootcampId != null) {
-            allVersions = allVersions.stream()
-                    .filter(versionEntity -> versionEntity.getBootcamp().getId().equals(bootcampId))
-                    .toList();
-        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
+        List<VersionEntity> allVersions = bootcampId != null ? versionRepository.findByBootcamp_Id(bootcampId, pageable).getContent() : versionRepository.findAll(pageable).getContent();
 
         return versionEntityMapper.toModelList(allVersions);
     }
-
-
 }
 
