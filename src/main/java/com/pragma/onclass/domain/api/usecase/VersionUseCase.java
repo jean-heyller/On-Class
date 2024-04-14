@@ -34,14 +34,14 @@ public class VersionUseCase implements IVersionServicePort {
 
     public List<Version> getAllVersions(Integer page,
                                         Integer size,
-                                        boolean isAscName,
-                                        boolean isAscDate,
-                                        boolean isAscQuota,
-                                        Long bootcampId){
+                                        String isAscName,
+                                        String isAscDate,
+                                        String isAscQuota,
+                                        Long bootcampId) {
 
-        return versionPersistencePort.getAllVersions(page, size, isAscName,
-                                      isAscDate, isAscQuota, bootcampId);
+        return versionPersistencePort.getAllVersions(page, size, isAscName, isAscDate, isAscQuota, bootcampId);
     }
+
 }
 
 

@@ -10,9 +10,9 @@ public interface IVersionPersistencePort {
 
     List<Version> getAllVersions(Integer page,
                                  Integer size,
-                                 boolean isAscName,
-                                 boolean isAscDate,
-                                 boolean isAscQuota,
+                                 String isAscName,
+                                 String isAscDate,
+                                 String isAscQuota,
                                  Long bootcampId);
 
 
