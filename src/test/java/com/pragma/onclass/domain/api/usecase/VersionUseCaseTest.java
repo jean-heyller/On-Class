@@ -16,8 +16,10 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class VersionUseCaseTest {
 
@@ -70,5 +72,21 @@ class VersionUseCaseTest {
         versionServicePort.saveVersion(version);
 
         verify(versionPersistencePort).saveVersion(version);
+    }
+
+    @Test
+    void getAllVersions_returnsVersions() {
+
+        List<Version> expectedVersions = Collections.singletonList(
+                new Version(1L, LocalDate.now(), LocalDate.now().plusDays(1), 10, null)
+        );
+        when(versionPersistencePort.getAllVersions(0, 10, "asc", "asc", "asc", 1L)).thenReturn(expectedVersions);
+
+
+        List<Version> actualVersions = versionServicePort.getAllVersions(0, 10, "asc", "asc", "asc", 1L);
+
+
+        assertEquals(expectedVersions, actualVersions);
+        verify(versionPersistencePort).getAllVersions(0, 10, "asc", "asc", "asc", 1L);
     }
 }

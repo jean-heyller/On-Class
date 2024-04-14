@@ -32,7 +32,7 @@ public class VersionRestControllerAdapter {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<VersionResponse>> getVersion(@RequestParam(defaultValue = "0") Integer page, @RequestParam Integer size,
+    public ResponseEntity<List<VersionResponse>> getAllVersions(@RequestParam Integer page, @RequestParam Integer size,
                                                             @RequestParam(defaultValue = "") String isAscName,
                                                             @RequestParam(defaultValue = "") String isAscDate,
                                                             @RequestParam(defaultValue = "") String isAscQuota,
