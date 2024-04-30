@@ -1,4 +1,4 @@
-package com.pragma.OnClass;
+package com.pragma.onclass;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
