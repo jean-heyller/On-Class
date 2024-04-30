@@ -7,6 +7,7 @@ import com.pragma.onclass.utils.exceptions.StartDateAfterEndDateException;
 import com.pragma.onclass.utils.exceptions.StartDateBeforeCurrentDateException;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 public class VersionUseCase implements IVersionServicePort {
@@ -30,6 +31,17 @@ public class VersionUseCase implements IVersionServicePort {
         }
         versionPersistencePort.saveVersion(version);
     }
+
+    public List<Version> getAllVersions(Integer page,
+                                        Integer size,
+                                        String isAscName,
+                                        String isAscDate,
+                                        String isAscQuota,
+                                        Long bootcampId) {
+
+        return versionPersistencePort.getAllVersions(page, size, isAscName, isAscDate, isAscQuota, bootcampId);
+    }
+
 }
 
 

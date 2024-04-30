@@ -8,16 +8,24 @@ import com.pragma.onclass.adapters.driven.jpa.mysql.repository.IBootcampReposito
 import com.pragma.onclass.adapters.driven.jpa.mysql.repository.IVersionRepository;
 import com.pragma.onclass.domain.model.Bootcamp;
 import com.pragma.onclass.domain.model.Version;
+import com.pragma.onclass.utils.exceptions.IncompatibleValueException;
 import com.pragma.onclass.utils.exceptions.NoDataFoundException;
 import com.pragma.onclass.utils.exceptions.ValueAlreadyExitsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -72,5 +80,41 @@ class VersionAdapterTest {
         when(bootCampRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(NoDataFoundException.class, () -> versionAdapter.saveVersion(version));
+    }
+
+    @Test
+    void getAllVersions_returnsVersions() {
+        // Preparar
+        BootcampEntity bootcampEntity = new BootcampEntity(1L, "Bootcamp1", "Description", null);
+        VersionEntity versionEntity = new VersionEntity(1L, LocalDate.now(), LocalDate.now().plusDays(1), 10, bootcampEntity);
+        Page<VersionEntity> versionEntities = new PageImpl<>(Collections.singletonList(versionEntity));
+        Version version = new Version(1L, LocalDate.now(), LocalDate.now().plusDays(1), 10, null);
+        List<Version> expectedVersions = Collections.singletonList(version);
+
+        when(versionRepository.findAll(any(Pageable.class))).thenReturn(versionEntities);
+        when(versionEntityMapper.toModelList(versionEntities.getContent())).thenReturn(expectedVersions);
+
+        // Ejecutar
+        List<Version> actualVersions = versionAdapter.getAllVersions(0, 10, "asc", null, null, null);
+
+        // Verificar
+        assertEquals(expectedVersions, actualVersions);
+        verify(versionRepository).findAll(any(Pageable.class));
+        verify(versionEntityMapper).toModelList(versionEntities.getContent());
+    }
+
+
+
+
+
+
+    @Test
+    void getAllVersions_throwsIncompatibleValueException() {
+        // Arrange
+        int invalidPage = -1;
+        int invalidSize = -1;
+
+        // Act & Assert
+        assertThrows(IncompatibleValueException.class, () -> versionAdapter.getAllVersions(invalidPage, invalidSize, null, null, null, null));
     }
 }
